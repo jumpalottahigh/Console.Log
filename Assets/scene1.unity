@@ -886,7 +886,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 131896, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
       propertyPath: m_Name
-      value: Door2
+      value: Door1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
@@ -932,7 +932,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 131896, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
       propertyPath: m_Name
-      value: Door3
+      value: Door4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
@@ -1011,6 +1011,10 @@ Prefab:
     - target: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
@@ -1391,7 +1395,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 131896, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
       propertyPath: m_Name
-      value: Door4
+      value: Door3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
@@ -1556,7 +1560,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 131896, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
       propertyPath: m_Name
-      value: Door1
+      value: Door2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3aed7f39aa495404aa797ba1b3f03b09, type: 2}
