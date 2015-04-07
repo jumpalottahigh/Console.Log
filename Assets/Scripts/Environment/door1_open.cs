@@ -41,7 +41,7 @@ public class door1_open : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if (other.CompareTag("Player")){
-			Debug.Log("Player enter");
+			//Debug.Log("Player enter");
 			playerNear = true;
 		}
 
@@ -49,7 +49,7 @@ public class door1_open : MonoBehaviour {
 
 	void OnTriggerExit(Collider other) {
 		if (other.CompareTag("Player")){
-			Debug.Log("Player LEFT");
+			//Debug.Log("Player LEFT");
 			playerNear = false;
 		}
 	}
