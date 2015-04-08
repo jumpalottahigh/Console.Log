@@ -3,40 +3,50 @@ using System.Collections;
 
 public class Elevator1 : MonoBehaviour {
 
-	public bool playerNear = false;
-	public bool isUp = false;
-	//public bool spawnNext = false;
+	public bool playerNear;
+	public bool isUp;
+	public bool newLevelLoad;
 	
 	public Transform spawnPoint;
 	public GameObject player;
+	public GameObject currentLevel;
+	public Object nextLevel;
 
 	public Transform elev;
 	public Transform down;
 	public Transform up;
-	public float speed = 0.01f;
+	public float speed;
 
 	// Use this for initialization
 	void Start () {
-		elev = this.transform;
+		playerNear = false;
+		isUp = false;
+		speed = 0.25f;
+		elev = GameObject.Find("Elevator").transform;
 		up = GameObject.Find ("el_up").transform;
 		down = GameObject.Find ("el_down").transform;
 		player = GameObject.FindGameObjectWithTag("Player");
 		spawnPoint = GameObject.Find ("spawnPoint").transform;
+		currentLevel = GameObject.Find ("currentLevel");
+		newLevelLoad = false;
 	}
-	
+
+
+
 	// Update is called once per frame
 	void Update () {
 		if (playerNear && !isUp) {
 			elev.Translate (Vector3.up * speed);
-			if (Vector3.Distance (elev.position, up.position) < 0.05f) {
+			if(Vector3.Distance(elev.position, up.position) <0.05f){
 				isUp = true;
+				spawnNext();
 			}
 		}
 
-		//if (Vector3.Distance (player.transform.position, up.position) < 5f) {
-			//Instantiate("level2", spawnPoint.position);
-		//}
-
+		if (newLevelLoad) {
+			Start ();
+			newLevelLoad = false;
+		}
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -51,11 +61,19 @@ public class Elevator1 : MonoBehaviour {
 	void OnTriggerExit(Collider other) {
 		playerNear = false;
 		other.transform.parent = null;
+		if (!playerNear) {
+			newLevelLoad = true;
+			GameObject.Destroy (currentLevel);
+			nextLevel.name = "currentLevel";
+		}
 	}
 	
 	void spawnNext() {
 		if (isUp){
-			Instantiate("level2", spawnPoint.position, Quaternion.identity); //as GameObject;
+			float random = Mathf.Round(Random.Range(1,4)*90);
+			Debug.Log(random);
+			nextLevel = Instantiate(Resources.Load("level1"), spawnPoint.position, Quaternion.Euler(0,random,0));
+			currentLevel.name = "oldLevel";
 		}
 	}
 
