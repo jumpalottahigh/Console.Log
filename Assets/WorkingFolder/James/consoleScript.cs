@@ -46,8 +46,8 @@ public class consoleScript : MonoBehaviour {
 		}
 	}
 	void OnGUI(){
-		Rect textWindow = new Rect (200, 10, Screen.width - 210, Screen.height - 20);
-		GUI.Window(0, textWindow, windowFunc, "Console.Log");
+			Rect textWindow = new Rect (200, 10, Screen.width - 210, Screen.height - 20);
+			GUI.Window (0, textWindow, windowFunc, "Console.Log");
 	}
 
 	private void inputFunc(){
