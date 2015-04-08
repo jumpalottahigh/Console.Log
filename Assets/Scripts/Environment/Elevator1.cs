@@ -5,9 +5,10 @@ public class Elevator1 : MonoBehaviour {
 
 	public bool playerNear = false;
 	public bool isUp = false;
+	//public bool spawnNext = false;
 	
-	//public Transform spawnPoint = GameObject.Find("spawnPoint").transform;
-	//public GameObject player;
+	public Transform spawnPoint;
+	public GameObject player;
 
 	public Transform elev;
 	public Transform down;
@@ -19,7 +20,8 @@ public class Elevator1 : MonoBehaviour {
 		elev = this.transform;
 		up = GameObject.Find ("el_up").transform;
 		down = GameObject.Find ("el_down").transform;
-		//player = GameObject.FindGameObjectWithTag("Player");
+		player = GameObject.FindGameObjectWithTag("Player");
+		spawnPoint = GameObject.Find ("spawnPoint").transform;
 	}
 	
 	// Update is called once per frame
@@ -28,7 +30,6 @@ public class Elevator1 : MonoBehaviour {
 			elev.Translate (Vector3.up * speed);
 			if (Vector3.Distance (elev.position, up.position) < 0.05f) {
 				isUp = true;
-				//spawnNext();
 			}
 		}
 
@@ -51,13 +52,11 @@ public class Elevator1 : MonoBehaviour {
 		playerNear = false;
 		other.transform.parent = null;
 	}
-
-	/*
+	
 	void spawnNext() {
-		if (Vector3.Distance (player.transform.position, playerAtNewLevelStart.position) < 5f) {
-			Instantiate("level2", spawnPoint.position);
+		if (isUp){
+			Instantiate("level2", spawnPoint.position, Quaternion.identity); //as GameObject;
 		}
 	}
-	*/
 
 }

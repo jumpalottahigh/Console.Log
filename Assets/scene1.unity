@@ -581,6 +581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNear: 0
   isUp: 0
+  spawnPoint: {fileID: 0}
+  player: {fileID: 0}
   elev: {fileID: 0}
   down: {fileID: 0}
   up: {fileID: 0}
