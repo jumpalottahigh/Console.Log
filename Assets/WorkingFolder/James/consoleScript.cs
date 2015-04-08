@@ -30,6 +30,7 @@ public class consoleScript : MonoBehaviour {
 			}
 			if(t.tag == "light"){
 				Debug.Log ("Light on console");
+				light = true;
 				modeOptions = modeOptions + "Light\n";
 			}
 		}
@@ -64,9 +65,12 @@ public class consoleScript : MonoBehaviour {
 				spamshield = true;
 			} else if (textInput == "light" && light == true && mode == "Basic") {
 				mode = mode + "/Light";
+				modeOptions = "Power\nColor\nExit\n";
 				textOutput = "";
+				spamshield = true;
 			} else if (textInput == "elevator" && elevator == true && mode == "Basic") {
 				mode = mode + "/Elevator";
+				modeOptions = "Power\nSpeed\nExit\n";
 				textOutput = "";
 			} else{
 				textOutput = "Unrecognised command\n";
@@ -95,6 +99,7 @@ public class consoleScript : MonoBehaviour {
 				textOutput = "Door is now unlocked\n";
 			} else if (spamshield == true){
 				textOutput = "";
+				spamshield = false;
 			}else {
 				textOutput = "Unrecognised command\n";
 			}
@@ -128,6 +133,7 @@ public class consoleScript : MonoBehaviour {
 				textOutput = "BOOM BABY SEXY LIGHTS!\n";
 			} else if (spamshield == true){
 				textOutput = "";
+				spamshield = false;
 			}else {
 				textOutput = "Unrecognised command\n";
 			}
