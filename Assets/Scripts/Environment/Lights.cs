@@ -16,26 +16,30 @@ public class Lights : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lt = GetComponent<Light> ();
-		current = lt.color;
+		//lt = GetComponent<Light> ();
+		//current = lt.color;
 	}
 
 	void sexyLights(){
+		lt = GetComponent<Light> ();
 		current = lt.color;
 		lt.color = Color.Lerp (current, sexy, 5f);
 	}
 
 	void greenLights(){
+		lt = GetComponent<Light> ();
 		current = lt.color;
 		lt.color = Color.Lerp (current, green, 5f);
 	}
 
 	void whiteLights(){
+		lt = GetComponent<Light> ();
 		current = lt.color;
 		lt.color = Color.Lerp (current, white, 5f);
 	}
 
 	void offLights(){
+		lt = GetComponent<Light> ();
 		current = lt.color;
 		lt.color = Color.Lerp (current, off, 5f);
 	}

@@ -105,11 +105,11 @@ public class consoleScript : MonoBehaviour {
 			} else if (textInput == "power off") {
 				textOutput = "Door is no longer powered\n";
 			} else if (textInput == "lock on") {
-				interaction.doorUnlockedFromConsole = false;
+				interaction.doorLocked = true;
 				textOutput = "Door is now locked\n";
 			} else if (textInput == "lock off") {
 				//send message to door script
-				interaction.doorUnlockedFromConsole = true;
+				interaction.doorUnlocked = true;
 				textOutput = "Door is now unlocked\n";
 			} else if (spamshield == true) {
 				textOutput = "";

@@ -28,44 +28,31 @@ public class interaction : MonoBehaviour {
 	}
 
 	void FindConsole(){
-		/*
-		GameObject[] conArray = GameObject.FindGameObjectsWithTag("console");
-		GameObject[] level1Cons = new GameObject[5];
 
-		GameObject curLev = GameObject.Find ("level1");
-		GameObject currentClosest;
-		ArrayList curLevConTransf = new ArrayList ();
-		ArrayList trythis = new ArrayList ();
+		GameObject [] allCons= GameObject.FindGameObjectsWithTag("console");
 
-		int j = 0;
-
-		for (int i = 0; i<conArray.Length; i++) {
-			if(conArray[i].transform.parent.IsChildOf(curLev.transform)){
-				level1Cons[j] = conArray[i];
-				j++;
+		foreach (GameObject c in allCons) {
+			if(Vector3.Distance(player.transform.position, c.transform.position) < 5f){
+				closestConsole = c;
 			}
 		}
-
-		for (int k=0; k<level1Cons.Length; k++) {
-			Debug.Log(level1Cons[k]);
-		}
-
-
-	*/
-				//trythis.Add(Vector3.Distance(player.transform.position, t.transform.position));
-	
+		Debug.Log ("Closest console is: " + closestConsole.name);
 	}
 
 
 
 	//STATIC VARIABLE FOR USE WITH CONSOLE FUNCTIONALITY
+	//UI and Keyboard
 	public bool toggleHelp = true;
 	public static bool escPressed = false;
-	public static bool doorUnlockedFromConsole = false;
+
+	//DOORS
+	public static bool doorUnlocked = false;
+	public static bool doorLocked = false;
 
 	//lights interaction
 	public static bool lightsSexy = false;
-	public static bool lightsWhite = true;
+	public static bool lightsWhite = false;
 	public static bool lightsGreen = false;
 	public static bool lightsOff = false;
 
@@ -74,9 +61,9 @@ public class interaction : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		Cursor.visible = false;
 
-		//closestConsole = GameObject.FindGameObjectsWithTag ("console") [0];
+		FindConsole ();
 
-		closestConsole = FindClosestConsole ();
+		//closestConsole = FindClosestConsole ();
 	}
 	
 	// Update is called once per frame
@@ -88,7 +75,9 @@ public class interaction : MonoBehaviour {
 			//Debug.Log ("E pressed");
 
 			//E was pressed, find closest console
-			closestConsole = FindClosestConsole ();
+
+			FindConsole();
+			//closestConsole = FindClosestConsole ();
 
 			//if player is close enough to interact, bring up the UI
 			if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && !closestConsole.GetComponentInChildren<consoleScript> ().enabled) {
@@ -113,42 +102,39 @@ public class interaction : MonoBehaviour {
 		//Monitor for changes in booleans which are primarily changed from consoleScript
 		//If console script changes static booleans these changes will be reflected below on update and send on to be taken care of
 
-		//SOME HEAVY ERROR GOING ON HERE GOTTA FIGURE IT OUT LATER
-		if (doorUnlockedFromConsole) {
-			closestConsole = FindClosestConsole ();
+		if (doorUnlocked) {
 			closestConsole.GetComponentInChildren<door1_open> ().SendMessage ("Unlock");
-		} else {
-			closestConsole = null;
-			//closestConsole.GetComponentInChildren<door1_open>().SendMessage("Lock");
+			doorUnlocked = false;
+		} 
+
+		if (doorLocked) {
+			closestConsole.GetComponentInChildren<door1_open>().SendMessage("Lock");
+			doorLocked = false;
 		}
 
 		//Lights interaction from console comes in through the boolean
 		if (lightsGreen) {
 			closestConsole.GetComponentInChildren<Lights>().SendMessage("greenLights");
-			lightsSexy = false;
-			lightsWhite = false;
-			lightsOff = false;
+			Debug.Log ("Green LIGHTS ON");
+			lightsGreen = false;
 		}
 
 		if (lightsSexy) {
 			closestConsole.GetComponentInChildren<Lights>().SendMessage("sexyLights");
-			lightsGreen = false;
-			lightsWhite = false;
-			lightsOff = false;
+			Debug.Log ("SEXY LIGHTS ON");
+			lightsSexy = false;
 		}
 
 		if (lightsWhite) {
 			closestConsole.GetComponentInChildren<Lights>().SendMessage("whiteLights");
-			lightsSexy = false;
-			lightsGreen = false;
-			lightsOff = false;
+			Debug.Log ("WHITE LIGHTS ON");
+			lightsWhite = false;
 		}
 
 		if (lightsOff) {
 			closestConsole.GetComponentInChildren<Lights>().SendMessage("offLights");
-			lightsSexy = false;
-			lightsWhite = false;
-			lightsGreen = false;
+			Debug.Log ("LIGHTS OFF");
+			lightsOff = false;
 		}
 
 
