@@ -51,7 +51,8 @@ public class consoleScript : MonoBehaviour {
 		}
 	}
 	void OnGUI(){
-			Rect textWindow = new Rect (200, 10, Screen.width - 210, Screen.height - 20);
+			//Rect textWindow = new Rect (200, 10, Screen.width - 210, Screen.height - 20);
+			Rect textWindow = new Rect (Screen.width/3, 10, Screen.width/3*2, Screen.height - 20);
 			GUI.Window (0, textWindow, windowFunc, "Console.Log");
 	}
 
@@ -223,12 +224,24 @@ public class consoleScript : MonoBehaviour {
 		//Aligning and organising the input and output fields
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		GUI.Label(new Rect(10,20, Screen.width - 230, Screen.height - 70), consoleStr);
+
+		//Give a name to next control so we can identify it
+		GUI.SetNextControlName ("inputField");
 		textInput = GUI.TextField (new Rect (10, Screen.height - 52, Screen.width - 230, 22), textInput);
+
+		//AUTO FOCUS TEXT FIELD
+		GUI.FocusControl ("inputField");
 
 		//Checking if enter is pressed
 		Event e = Event.current;
 		if (e.keyCode == KeyCode.Return) {
 			inputFunc ();
+		}
+
+		//If esp pressed disable script and hide console
+		if (e.keyCode == KeyCode.Escape) {
+			//send message to interaction script to close UI
+			interaction.escPressed = true;
 		}
 	}
 }

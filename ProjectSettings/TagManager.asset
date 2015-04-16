@@ -8,6 +8,8 @@ TagManager:
   - elevator
   - light
   - console
+  - enemy
+  - consolePositions
   layers:
   - Default
   - TransparentFX

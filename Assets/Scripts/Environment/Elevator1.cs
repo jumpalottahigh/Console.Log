@@ -72,7 +72,7 @@ public class Elevator1 : MonoBehaviour {
 		if (isUp){
 			float random = Mathf.Round(Random.Range(1,4)*90);
 			Debug.Log(random);
-			nextLevel = Instantiate(Resources.Load("level1"), spawnPoint.position, Quaternion.Euler(0,random,0));
+			nextLevel = Instantiate(Resources.Load("Level_Backbone"), spawnPoint.position, Quaternion.Euler(0,random,0));
 			currentLevel.name = "oldLevel";
 		}
 	}
