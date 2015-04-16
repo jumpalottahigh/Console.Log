@@ -6,27 +6,31 @@ public class gameInit : MonoBehaviour {
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
+	private float levelRot;
 
 	// Use this for initialization
 	void Start () {
 		//Lets spawn 3 levels to start with
 		levelNum = 1;
 		levelHeight = 0.0f;
+		levelRot = 0.0f;
 
 		while (levelNum<4) {
-			LoadLevel(levelNum, levelHeight);
+			LoadLevel(levelNum, levelHeight, levelRot);
 
 			levelNum++;
 			levelHeight += 22f;
+			levelRot = Mathf.Round(Random.Range(1,4)*90);
 		}
 
 
 	}
 
 	//This function takes care of loading multiple levels, selecting a main con and spawning other cons
-	void LoadLevel(int levelNum, float levelHeight){
+	void LoadLevel(int levelNum, float levelHeight, float levelRot){
 			//Load up level backbone at 0,0,0 for first level and fix the name in the Hierarchy
-			currentLevel = Instantiate (Resources.Load ("Prefabs/Final/Level_Backbone"), new Vector3(0, levelHeight, 0), Quaternion.identity) as GameObject;
+			//All follow up levels have a random 90 degree around the Y axis rotation
+			currentLevel = Instantiate (Resources.Load ("Prefabs/Final/Level_Backbone"), new Vector3(0, levelHeight, 0), Quaternion.Euler(0,levelRot,0)) as GameObject;
 			currentLevel.name = "level" + levelNum;
 			GameObject consolesInLevel = new GameObject ();
 			consolesInLevel.name = currentLevel.name + "_consoles";
@@ -48,10 +52,12 @@ public class gameInit : MonoBehaviour {
 			Debug.Log ("Randomly picked: " + mainPos + "for the main console!");
 			
 			//Instantiate the main console and immediately fix the name
-			GameObject mainCon = Instantiate (Resources.Load ("Prefabs/Consoles/conMain" + (random + 1)), mainPos.position, mainPos.rotation) as GameObject;
-			mainCon.name = "level" + levelNum + "_conMain" + (random + 1);
+			GameObject mainCon = Instantiate (Resources.Load ("Prefabs/Consoles/conGeneric"), mainPos.position, mainPos.rotation) as GameObject;
+			mainCon.name = currentLevel.name + "_MAINEVENT_" + mainPos.name;
 			mainCon.transform.parent = consolesInLevel.transform;
-			
+			AttachMainEventScript (mainCon);
+			SetParenting (mainCon, currentLevel);	
+
 			//Remove main console from arraylist
 			consoleTransforms.RemoveAt (random);
 			
@@ -64,6 +70,7 @@ public class gameInit : MonoBehaviour {
 					GameObject buffer = Instantiate (Resources.Load ("Prefabs/Consoles/conGeneric"), pos.position, pos.rotation) as GameObject;
 					buffer.name = "level" + levelNum + "_" + pos.name;
 					buffer.transform.parent = consolesInLevel.transform;
+					SetParenting(buffer, currentLevel);
 				}
 			}
 			
@@ -72,4 +79,95 @@ public class gameInit : MonoBehaviour {
 	
 
 		}
+
+	//This function takes a console game object as an argument and parents to it all relative doors, lights, elevators etc.
+	void SetParenting(GameObject con, GameObject curLevel){
+		GameObject door;
+		GameObject light;
+
+		if (con.name.Contains ("con1")) {
+			door = GameObject.Find("Door1");
+			light = GameObject.Find("Light1");
+			if(door.transform.IsChildOf(curLevel.transform) && light.transform.IsChildOf(curLevel.transform)){
+				door.transform.parent = con.transform;
+				light.transform.parent = con.transform;
+
+				//Give it 50/50 for the doors to be locked
+				if(Random.value > 0.5f)
+					door.SendMessage("Lock");
+			}
+		}
+		
+		if (con.name.Contains ("con2")) {
+			door = GameObject.Find("Door2");
+			if(door.transform.IsChildOf(curLevel.transform)){
+				door.transform.parent = con.transform;
+
+				//Give it 50/50 for the doors to be locked
+				if(Random.value > 0.5f)
+					door.SendMessage("Lock");
+			}
+		}
+		
+		if (con.name.Contains ("con3")) {
+			door = GameObject.Find("Door3");
+			light = GameObject.Find("Light3");
+			if(door.transform.IsChildOf(curLevel.transform) && light.transform.IsChildOf(curLevel.transform)){
+				door.transform.parent = con.transform;
+				light.transform.parent = con.transform;
+
+				//Give it 50/50 for the doors to be locked
+				if(Random.value > 0.5f)
+					door.SendMessage("Lock");
+			}
+		}
+		
+		if (con.name.Contains ("con4")) {
+			door = GameObject.Find("Door4");
+			light = GameObject.Find("Light4");
+			if(door.transform.IsChildOf(curLevel.transform) && light.transform.IsChildOf(curLevel.transform)){
+				door.transform.parent = con.transform;
+				light.transform.parent = con.transform;
+
+				//Give it 50/50 for the doors to be locked
+				if(Random.value > 0.5f)
+					door.SendMessage("Lock");
+			}
+		}
+		
+		if (con.name.Contains ("con5")) {
+			door = GameObject.Find("Elevator");
+			light = GameObject.Find ("Light5");
+			if(door.transform.IsChildOf(curLevel.transform) && light.transform.IsChildOf(curLevel.transform)){
+				door.transform.parent = con.transform;
+				light.transform.parent = con.transform;
+			}
+		}
+
 	}
+
+	//Here we pass only the main event console and depending on its numbering assign the proper event script
+	void AttachMainEventScript(GameObject con){
+
+		if (con.name.Contains ("con1")) {
+			con.AddComponent<con1MainEvent> ();
+		}
+
+		if (con.name.Contains ("con2")) {
+			con.AddComponent<con2MainEvent> ();
+		}
+
+		if (con.name.Contains ("con3")) {
+			con.AddComponent<con3MainEvent> ();
+		}
+
+		if (con.name.Contains ("con4")) {
+			con.AddComponent<con4MainEvent> ();
+		}
+
+		if (con.name.Contains ("con5")) {
+			con.AddComponent<con5MainEvent> ();
+		}
+
+	}
+}

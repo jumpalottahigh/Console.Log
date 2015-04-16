@@ -3,6 +3,10 @@ using System.Collections;
 
 public class interaction : MonoBehaviour {
 
+	//VARIABLES
+	public GameObject player;
+	public GameObject closestConsole;
+
 	//Function that finds the closest to player console and returns GameObject with it
 	GameObject FindClosestConsole() {
 		GameObject[] gos;
@@ -23,21 +27,62 @@ public class interaction : MonoBehaviour {
 		return closest;
 	}
 
-	//VARIABLES
-	public GameObject player;
-	public GameObject closestConsole;
+	void FindConsole(){
+		/*
+		GameObject[] conArray = GameObject.FindGameObjectsWithTag("console");
+		GameObject[] level1Cons = new GameObject[5];
 
+		GameObject curLev = GameObject.Find ("level1");
+		GameObject currentClosest;
+		ArrayList curLevConTransf = new ArrayList ();
+		ArrayList trythis = new ArrayList ();
+
+		int j = 0;
+
+		for (int i = 0; i<conArray.Length; i++) {
+			if(conArray[i].transform.parent.IsChildOf(curLev.transform)){
+				level1Cons[j] = conArray[i];
+				j++;
+			}
+		}
+
+		for (int k=0; k<level1Cons.Length; k++) {
+			Debug.Log(level1Cons[k]);
+		}
+
+
+	*/
+				//trythis.Add(Vector3.Distance(player.transform.position, t.transform.position));
+	
+	}
+
+
+
+	//STATIC VARIABLE FOR USE WITH CONSOLE FUNCTIONALITY
 	public bool toggleHelp = true;
 	public static bool escPressed = false;
+	public static bool doorUnlockedFromConsole = false;
+
+	//lights interaction
+	public static bool lightsSexy = false;
+	public static bool lightsWhite = true;
+	public static bool lightsGreen = false;
+	public static bool lightsOff = false;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		Cursor.visible = false;
+
+		//closestConsole = GameObject.FindGameObjectsWithTag ("console") [0];
+
+		closestConsole = FindClosestConsole ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+
 
 		if (Input.GetKeyDown (KeyCode.E)) {
 			//Debug.Log ("E pressed");
@@ -63,6 +108,50 @@ public class interaction : MonoBehaviour {
 
 			toggleHelp = true;
 		}
+
+
+		//Monitor for changes in booleans which are primarily changed from consoleScript
+		//If console script changes static booleans these changes will be reflected below on update and send on to be taken care of
+
+		//SOME HEAVY ERROR GOING ON HERE GOTTA FIGURE IT OUT LATER
+		if (doorUnlockedFromConsole) {
+			closestConsole = FindClosestConsole ();
+			closestConsole.GetComponentInChildren<door1_open> ().SendMessage ("Unlock");
+		} else {
+			closestConsole = null;
+			//closestConsole.GetComponentInChildren<door1_open>().SendMessage("Lock");
+		}
+
+		//Lights interaction from console comes in through the boolean
+		if (lightsGreen) {
+			closestConsole.GetComponentInChildren<Lights>().SendMessage("greenLights");
+			lightsSexy = false;
+			lightsWhite = false;
+			lightsOff = false;
+		}
+
+		if (lightsSexy) {
+			closestConsole.GetComponentInChildren<Lights>().SendMessage("sexyLights");
+			lightsGreen = false;
+			lightsWhite = false;
+			lightsOff = false;
+		}
+
+		if (lightsWhite) {
+			closestConsole.GetComponentInChildren<Lights>().SendMessage("whiteLights");
+			lightsSexy = false;
+			lightsGreen = false;
+			lightsOff = false;
+		}
+
+		if (lightsOff) {
+			closestConsole.GetComponentInChildren<Lights>().SendMessage("offLights");
+			lightsSexy = false;
+			lightsWhite = false;
+			lightsGreen = false;
+		}
+
+
 
 	}
 

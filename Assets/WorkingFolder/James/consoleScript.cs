@@ -105,8 +105,11 @@ public class consoleScript : MonoBehaviour {
 			} else if (textInput == "power off") {
 				textOutput = "Door is no longer powered\n";
 			} else if (textInput == "lock on") {
+				interaction.doorUnlockedFromConsole = false;
 				textOutput = "Door is now locked\n";
 			} else if (textInput == "lock off") {
+				//send message to door script
+				interaction.doorUnlockedFromConsole = true;
 				textOutput = "Door is now unlocked\n";
 			} else if (spamshield == true) {
 				textOutput = "";
@@ -132,16 +135,22 @@ public class consoleScript : MonoBehaviour {
 			} else if (textInput == "color ?") {
 				textOutput = "White\nGreen\nSexy\n";
 			} else if (textInput == "power on") {
+				interaction.lightsWhite = true;
 				textOutput = "Lights are powered on\n";
 			} else if (textInput == "power off") {
+				interaction.lightsOff = true;
 				textOutput = "Lights are powered off\n";
 			} else if (textInput == "power sexy") {
+				interaction.lightsSexy = true;
 				textOutput = "Lights are set to SEXY!\n";
 			} else if (textInput == "color white") {
+				interaction.lightsWhite = true;
 				textOutput = "Light color set to white";
 			} else if (textInput == "color green") {
+				interaction.lightsGreen = true;
 				textOutput = "Light color set to green";
 			} else if (textInput == "color sexy") {
+				interaction.lightsSexy = true;
 				textOutput = "BOOM BABY SEXY LIGHTS!\n";
 			} else if (spamshield == true) {
 				textOutput = "";

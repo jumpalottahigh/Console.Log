@@ -54,5 +54,13 @@ public class door1_open : MonoBehaviour {
 		}
 	}
 
+	void Lock(){
+		locked = true;
+	}
+
+	void Unlock(){
+		locked = false;
+	}
+
 
 }

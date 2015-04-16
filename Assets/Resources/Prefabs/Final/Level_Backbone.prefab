@@ -256,7 +256,7 @@ GameObject:
   - 135: {fileID: 13581560}
   m_Layer: 0
   m_Name: Door3
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,7 +303,7 @@ GameObject:
   - 135: {fileID: 13551530}
   m_Layer: 0
   m_Name: Door1
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -379,9 +379,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 419194}
   - 108: {fileID: 10868324}
+  - 114: {fileID: 11409772}
   m_Layer: 0
   m_Name: Light4
-  m_TagString: Untagged
+  m_TagString: light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -591,9 +592,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 419034}
   - 108: {fileID: 10865962}
+  - 114: {fileID: 11483054}
   m_Layer: 0
   m_Name: Light3
-  m_TagString: Untagged
+  m_TagString: light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -642,9 +644,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 475730}
   - 108: {fileID: 10881268}
+  - 114: {fileID: 11497490}
   m_Layer: 0
   m_Name: Light1
-  m_TagString: Untagged
+  m_TagString: light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -742,6 +745,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 401472}
   - 108: {fileID: 10849750}
+  - 114: {fileID: 11459182}
   m_Layer: 0
   m_Name: Light5
   m_TagString: light
@@ -3150,6 +3154,23 @@ MonoBehaviour:
   rightEnd: {fileID: 0}
   leftStart: {fileID: 0}
   rightStart: {fileID: 0}
+--- !u!114 &11409772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2d31998ac239847b9431a5cb465cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lt: {fileID: 0}
+  off: {r: 0, g: 0, b: 0, a: 1}
+  white: {r: 1, g: 1, b: 1, a: 1}
+  sexy: {r: 1, g: 0, b: 0, a: 1}
+  green: {r: 0, g: 1, b: 0, a: 1}
+  current: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &11438400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3212,6 +3233,40 @@ MonoBehaviour:
   rightEnd: {fileID: 0}
   leftStart: {fileID: 0}
   rightStart: {fileID: 0}
+--- !u!114 &11459182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2d31998ac239847b9431a5cb465cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lt: {fileID: 0}
+  off: {r: 0, g: 0, b: 0, a: 1}
+  white: {r: 1, g: 1, b: 1, a: 1}
+  sexy: {r: 1, g: 0, b: 0, a: 1}
+  green: {r: 0, g: 1, b: 0, a: 1}
+  current: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &11483054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2d31998ac239847b9431a5cb465cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lt: {fileID: 0}
+  off: {r: 0, g: 0, b: 0, a: 1}
+  white: {r: 1, g: 1, b: 1, a: 1}
+  sexy: {r: 1, g: 0, b: 0, a: 1}
+  green: {r: 0, g: 1, b: 0, a: 1}
+  current: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &11486692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3232,6 +3287,23 @@ MonoBehaviour:
   rightEnd: {fileID: 0}
   leftStart: {fileID: 0}
   rightStart: {fileID: 0}
+--- !u!114 &11497490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2d31998ac239847b9431a5cb465cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lt: {fileID: 0}
+  off: {r: 0, g: 0, b: 0, a: 1}
+  white: {r: 1, g: 1, b: 1, a: 1}
+  sexy: {r: 1, g: 0, b: 0, a: 1}
+  green: {r: 0, g: 1, b: 0, a: 1}
+  current: {r: 0, g: 0, b: 0, a: 0}
 --- !u!135 &13551530
 SphereCollider:
   m_ObjectHideFlags: 1
