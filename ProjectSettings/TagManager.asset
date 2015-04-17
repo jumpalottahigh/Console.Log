@@ -10,6 +10,7 @@ TagManager:
   - console
   - enemy
   - consolePositions
+  - level
   layers:
   - Default
   - TransparentFX

@@ -10,15 +10,7 @@ public class Lights : MonoBehaviour {
 	public Color sexy = Color.red;
 	public Color green = Color.green;
 	public Color current;
-
-	//Public static bools to control stuff
-
-
-	// Use this for initialization
-	void Start () {
-		//lt = GetComponent<Light> ();
-		//current = lt.color;
-	}
+	
 
 	void sexyLights(){
 		lt = GetComponent<Light> ();

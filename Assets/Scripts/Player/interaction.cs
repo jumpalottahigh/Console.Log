@@ -6,7 +6,11 @@ public class interaction : MonoBehaviour {
 	//VARIABLES
 	public GameObject player;
 	public GameObject closestConsole;
+	public bool foundFirstCon = false;
 
+
+
+	//I wanna kick the following function out soon, reworking my 2.0 rework of it now
 	//Function that finds the closest to player console and returns GameObject with it
 	GameObject FindClosestConsole() {
 		GameObject[] gos;
@@ -27,17 +31,10 @@ public class interaction : MonoBehaviour {
 		return closest;
 	}
 
-	void FindConsole(){
 
-		GameObject [] allCons= GameObject.FindGameObjectsWithTag("console");
 
-		foreach (GameObject c in allCons) {
-			if(Vector3.Distance(player.transform.position, c.transform.position) < 5f){
-				closestConsole = c;
-			}
-		}
-		Debug.Log ("Closest console is: " + closestConsole.name);
-	}
+
+
 
 
 
@@ -62,22 +59,22 @@ public class interaction : MonoBehaviour {
 		Cursor.visible = false;
 
 		FindConsole ();
+		Debug.Log ("IS THIS FIRING OFF???? " + closestConsole.name);
 
-		//closestConsole = FindClosestConsole ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-
+		if(!foundFirstCon){
+			FindConsole();
+			foundFirstCon = true;
+		}
 
 		if (Input.GetKeyDown (KeyCode.E)) {
-			//Debug.Log ("E pressed");
-
 			//E was pressed, find closest console
 
 			FindConsole();
-			//closestConsole = FindClosestConsole ();
 
 			//if player is close enough to interact, bring up the UI
 			if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && !closestConsole.GetComponentInChildren<consoleScript> ().enabled) {
@@ -85,7 +82,6 @@ public class interaction : MonoBehaviour {
 				toggleHelp = false;
 			} else {
 				closestConsole.GetComponentInChildren<consoleScript> ().enabled = false;
-
 				//toggleHelp = true;
 			}
 		}
@@ -145,10 +141,8 @@ public class interaction : MonoBehaviour {
 		//SHIT FIX FOR THE ANNOYING ERROR
 		GUI.SetNextControlName ("inputField");
 		GUI.Label (new Rect (-100, -100, 1, 1), "");
-		//
 
-		closestConsole = FindClosestConsole ();
-
+		//Here is a small bug which throws 1 error, to be fixed in the future
 		if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && toggleHelp) {
 			GUI.Label(new Rect(20,Screen.height/2,Screen.width/4,Screen.height/3), "<color=orange><size=40>Press E to interact with consoles</size></color>");
 		}
@@ -157,6 +151,25 @@ public class interaction : MonoBehaviour {
 			GUI.Label(new Rect(20,Screen.height/2,Screen.width/4,Screen.height/3), "<color=red><size=40>Press ESC to exit</size></color>");
 		}
 
+	}
+
+
+
+	//New Find closest console function should be more efficient
+	void FindConsole(){
+		
+		GameObject [] allCons = GameObject.FindGameObjectsWithTag("console");
+		float maxDistance = Mathf.Infinity;
+		
+		foreach (GameObject c in allCons) {
+			float curDifference = Vector3.Distance(c.transform.position, player.transform.position);
+			if(curDifference<maxDistance){
+				closestConsole = c;
+				maxDistance = curDifference;
+			}
+			
+		}
+		Debug.Log ("Closest console is: " + closestConsole.name);
 	}
 			
 }

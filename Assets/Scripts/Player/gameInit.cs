@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class gameInit : MonoBehaviour {
-
+	
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
@@ -48,7 +48,8 @@ public class gameInit : MonoBehaviour {
 			//Spawn the main console
 			int random = Random.Range (0, 5); // pick a number from 1 to 5
 			
-			Transform mainPos = (Transform)consoleTransforms [random]; //Get the transform we picked
+			//replace hardcoded 0 with random var;
+			Transform mainPos = (Transform)consoleTransforms [1]; //Get the transform we picked
 			Debug.Log ("Randomly picked: " + mainPos + "for the main console!");
 			
 			//Instantiate the main console and immediately fix the name
