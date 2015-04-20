@@ -8,13 +8,13 @@ public class consoleScript : MonoBehaviour {
 	private bool door = false;
 	private bool light = false;
 	private bool enterPressed = false;
-	private bool spamshield = false;
+	public bool spamshield = false;
 	private string consoleStr = "Basic>";
-	private string textInput = "";
-	private string textOutput = "";
-	private string mode = "Basic";
-	private string modeOptions = "";
-	private string defaultOptions = "";
+	public string textInput = "";
+	public string textOutput = "";
+	public string mode = "Basic";
+	public string modeOptions = "";
+	public string defaultOptions = "";
 	private float cooldown = 2;
 	private int numlines, maxlines, eleSpeed;
 
@@ -89,34 +89,11 @@ public class consoleScript : MonoBehaviour {
 
 		//Door level input check
 		if (mode == "Basic/Door") {
-			if (textInput == "?") {
-				textOutput = modeOptions;
-			} else if (textInput == "exit") {
-				mode = "Basic";
-				textOutput = "";
-				modeOptions = defaultOptions;
-				spamshield = true;
-			} else if (textInput == "power" || textInput == "lock") {
-				textOutput = "Incomplete command\n";
-			} else if (textInput == "power ?" || textInput == "lock ?") {
-				textOutput = "On\nOff\n";
-			} else if (textInput == "power on") {
-				textOutput = "Door is now powered\n";
-			} else if (textInput == "power off") {
-				textOutput = "Door is no longer powered\n";
-			} else if (textInput == "lock on") {
-				interaction.doorLocked = true;
-				textOutput = "Door is now locked\n";
-			} else if (textInput == "lock off") {
-				//send message to door script
-				interaction.doorUnlocked = true;
-				textOutput = "Door is now unlocked\n";
-			} else if (spamshield == true) {
-				textOutput = "";
-				spamshield = false;
-			} else {
-				textOutput = "Unrecognised command\n";
-			}
+			//Finds the doorScript for this console
+			doorScript doorS = (doorScript)this.GetComponent("doorScript");
+			//Runs the needed script
+			doorS.door (textInput, modeOptions, defaultOptions, spamshield);
+
 		}
 
 		//Light level input check
@@ -185,37 +162,19 @@ public class consoleScript : MonoBehaviour {
 				if (Char.IsDigit(textOutput[i]))
 				eleSpeed = textOutput[i]
 			}*/
-			} else if (textInput == "speed 1"){
+			} else if (textInput == "speed low"){
 				eleSpeed = 1;
-				textOutput = "Elevator speed set to 1\n";
-			} else if (textInput == "speed 2"){
+				textOutput = "Elevator speed set to low\n";
+			} else if (textInput == "speed medium"){
 				eleSpeed = 2;
-				textOutput = "Elevator speed set to 2\n";
-			} else if (textInput == "speed 3"){
+				textOutput = "Elevator speed set to medium\n";
+			} else if (textInput == "speed high"){
 				eleSpeed = 3;
-				textOutput = "Elevator speed set to 3\n";
-			} else if (textInput == "speed 4"){
+				textOutput = "Elevator speed set to high\n";
+			} else if (textInput == "speed ludicrous"){
 				eleSpeed = 4;
-				textOutput = "Elevator speed set to 4\n";
-			} else if (textInput == "speed 5"){
-				eleSpeed = 5;
-				textOutput = "Elevator speed set to 5\n";
-			} else if (textInput == "speed 6"){
-				eleSpeed = 6;
-				textOutput = "Elevator speed set to 6\n";
-			} else if (textInput == "speed 7"){
-				eleSpeed = 7;
-				textOutput = "Elevator speed set to 7\n";
-			} else if (textInput == "speed 8"){
-				eleSpeed = 8;
-				textOutput = "Elevator speed set to 8\n";
-			} else if (textInput == "speed 9"){
-				eleSpeed = 9;
-				textOutput = "Elevator speed set to 9\n";
-			} else if (textInput == "speed 10"){
-				eleSpeed = 10;
-				textOutput = "Elevator speed set to 10\n";
-			}else if (spamshield == true) {
+				textOutput = "Elevator speed set to LUDICROUS!";
+			} else if (spamshield == true) {
 				textOutput = "";
 				spamshield = false;
 			} else {
