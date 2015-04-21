@@ -71,7 +71,7 @@ public class con1MainEvent : MonoBehaviour {
 		if (playerIsOnThisLevel && !btnPressed) {
 
 			//Fire off event timer and count down
-			timer -= 1 * Time.deltaTime;
+			timer -= 0.5f * Time.deltaTime;
 
 			//Rotate the level here
 			currentLevel.transform.Rotate(new Vector3(10,10,0) * Time.deltaTime * 0.1f);

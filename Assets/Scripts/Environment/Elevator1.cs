@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Elevator1 : MonoBehaviour {
 
+	/*
+
+	ELEVATOR SCRIPT NEED COMPLETE REWORK
+
+
 	public bool playerNear;
 	public bool isUp;
 	public bool newLevelLoad;
@@ -76,5 +81,5 @@ public class Elevator1 : MonoBehaviour {
 			currentLevel.name = "oldLevel";
 		}
 	}
-
+*/
 }

@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3348640}
   - 23: {fileID: 2373808}
   - 114: {fileID: 11472980}
+  - 114: {fileID: 11470650}
   m_Layer: 0
   m_Name: earth
   m_TagString: Untagged
@@ -61,6 +62,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111428}
   m_Mesh: {fileID: 4300000, guid: 99afdd7aeb7d47844b37f699e8cdccca, type: 3}
+--- !u!114 &11470650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5aaf160550a9bb41ae29c85176f1664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11472980
 MonoBehaviour:
   m_ObjectHideFlags: 1

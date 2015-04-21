@@ -10,7 +10,16 @@ public class gameInit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//Instantiate the player
+		GameObject player = Instantiate (Resources.Load ("Prefabs/Player"), new Vector3 (-15f, 3f, 5f), Quaternion.identity) as GameObject;
+		player.name = "Player";
+
+		///
+		//DEPRECATED:
+		//MULTIPLE LEVEL SPAWN
 		//Lets spawn 3 levels to start with
+
+		/*
 		levelNum = 1;
 		levelHeight = 0.0f;
 		levelRot = 0.0f;
@@ -22,7 +31,13 @@ public class gameInit : MonoBehaviour {
 			levelHeight += 22f;
 			levelRot = Mathf.Round(Random.Range(1,4)*90);
 		}
+		*/
 
+		///
+		//SPAWN 1 LEVEL
+		///
+
+		LoadLevel (1, 0.0f, 0.0f);
 
 	}
 
@@ -49,7 +64,7 @@ public class gameInit : MonoBehaviour {
 			int random = Random.Range (0, 5); // pick a number from 1 to 5
 			
 			//replace hardcoded 0 with random var;
-			Transform mainPos = (Transform)consoleTransforms [1]; //Get the transform we picked
+			Transform mainPos = (Transform)consoleTransforms [random]; //Get the transform we picked
 			Debug.Log ("Randomly picked: " + mainPos + "for the main console!");
 			
 			//Instantiate the main console and immediately fix the name

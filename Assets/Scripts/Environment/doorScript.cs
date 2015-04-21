@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Future idea
+//[RequireComponent (consoleSCript))]
+
 public class doorScript : MonoBehaviour {
 
 
