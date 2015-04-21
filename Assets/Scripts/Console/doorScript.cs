@@ -7,18 +7,17 @@ using System.Collections;
 public class doorScript : MonoBehaviour {
 
 
-	public void door(string textInput, string modeOptions, string defaultOptions, bool spamshield){
+	public void door(string textInput){
 
 		consoleScript console = (consoleScript)this.GetComponent("consoleScript");
 
 		if (textInput == "?") {
-			console.textOutput = modeOptions;
+			console.textOutput = console.modeOptions;
 		} else if (textInput == "exit") {
 			console.mode = "Basic";			
 			console.textOutput = "";
 			console.modeOptions = console.defaultOptions;
 			console.spamshield = true;
-			spamshield = true;
 		} else if (textInput == "power" || textInput == "lock") {
 			console.textOutput = "Incomplete command\n";
 		} else if (textInput == "power ?" || textInput == "lock ?") {
