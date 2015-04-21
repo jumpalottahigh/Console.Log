@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class gameInit : MonoBehaviour {
-	
+
+	public static bool loadNextLevel = false;
+
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
@@ -10,6 +12,7 @@ public class gameInit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		//Instantiate the player
 		GameObject player = Instantiate (Resources.Load ("Prefabs/Player"), new Vector3 (-15f, 3f, 5f), Quaternion.identity) as GameObject;
 		player.name = "Player";
@@ -39,7 +42,18 @@ public class gameInit : MonoBehaviour {
 
 		LoadLevel (1, 0.0f, 0.0f);
 
+
+
+
 	}
+
+	void Update(){
+		if (loadNextLevel) {
+			loadNextLevel = false;
+			LoadLevel(levelNum, 0.0f, 0.0f);
+		}
+	}
+
 
 	//This function takes care of loading multiple levels, selecting a main con and spawning other cons
 	void LoadLevel(int levelNum, float levelHeight, float levelRot){
@@ -64,7 +78,7 @@ public class gameInit : MonoBehaviour {
 			int random = Random.Range (0, 5); // pick a number from 1 to 5
 			
 			//replace hardcoded 0 with random var;
-			Transform mainPos = (Transform)consoleTransforms [random]; //Get the transform we picked
+			Transform mainPos = (Transform)consoleTransforms [3]; //Get the transform we picked
 			Debug.Log ("Randomly picked: " + mainPos + "for the main console!");
 			
 			//Instantiate the main console and immediately fix the name
@@ -93,6 +107,8 @@ public class gameInit : MonoBehaviour {
 			//Clear the array list
 			consoleTransforms.Clear ();
 	
+			//Increment level number
+			levelNum++;
 
 		}
 
