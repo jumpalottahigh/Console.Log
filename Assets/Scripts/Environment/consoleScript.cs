@@ -51,12 +51,14 @@ public class consoleScript : MonoBehaviour {
 		}
 	}
 	void OnGUI(){
-			//Rect textWindow = new Rect (200, 10, Screen.width - 210, Screen.height - 20);
+			//Draws the text box on screen
 			Rect textWindow = new Rect (Screen.width/3, 10, Screen.width/3*2, Screen.height - 20);
 			GUI.Window (0, textWindow, windowFunc, "Console.Log");
 	}
 
 	private void inputFunc(){
+		/*Makes sure that all player input is lower case
+		 Then finds out how many lines the string is and how many lines can fit in the screen*/
 		textInput = textInput.ToLower ();
 		numlines = consoleStr.Split ('\n').Length;
 		maxlines = (Screen.height - 52) / 17;
