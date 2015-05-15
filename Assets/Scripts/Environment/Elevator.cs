@@ -49,8 +49,7 @@ public class Elevator : MonoBehaviour {
 		//Destroy current level
 		if (!leftDoor.isPlaying) {
 			gameInit.removeCurrentLevel = true;
-
-			transform.Rotate(Vector3.zero);
+			//transform.rotation.eulerAngles = Vector3.zero;
 		}
 		Invoke ("LoadNext", 2);
 	}
@@ -64,5 +63,7 @@ public class Elevator : MonoBehaviour {
 	void HaveArrived(){
 		rightDoor.Play("doorRightClose");
 		leftDoor.Play ("doorLeftClose");
+		this.name = "";
+		this.tag = "Untagged";
 	}
 }

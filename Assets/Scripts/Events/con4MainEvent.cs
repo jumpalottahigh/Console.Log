@@ -2,10 +2,13 @@
 using System.Collections;
 
 public class con4MainEvent : MonoBehaviour {
+	private GameObject elevator;
 
+	private bool showSuccess = true;
 	private bool toggleEventExplaination = true;
 	private bool eventComplete = false, step2 = false, step3 = false;
 	private int eventNum;
+	private float globalTimer = 60f;
 	private float timer = 10, deathTimer = 20;
 
 	// Use this for initialization
@@ -17,8 +20,8 @@ public class con4MainEvent : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (step2 == true) {
-			timer -= Time.deltaTime;
-			deathTimer -= Time.deltaTime;
+			timer -= 1*Time.deltaTime;
+			deathTimer -= 1*Time.deltaTime;
 			if(deathTimer <= 0){
 				//Player death stuff
 			}
@@ -27,6 +30,10 @@ public class con4MainEvent : MonoBehaviour {
 				step2 = false;
 			}
 		}
+
+		//if no steps are done
+		if(!step2 && !step3)
+			globalTimer -= 1 * Time.deltaTime;
 	}
 
 	void OnGUI(){
@@ -39,9 +46,21 @@ public class con4MainEvent : MonoBehaviour {
 				GUI.Label (new Rect (Screen.width / 2 - 150, Screen.height / 2, Screen.width / 3, Screen.height / 3), "<color=yellow><size=22>-Get to the pump controls\n-Pump out air to stop fire\n-Pump air in before you asphyxiate</size></color>");
 			}
 		}
-		GUI.Label (new Rect (Screen.width / 2 - 170, 30, Screen.width / 2, Screen.width / 4), "<color=red><size=34>Time left!: " + (int)timer + "</size></color>");
-		if (eventComplete) {
-			GUI.Label (new Rect (Screen.width / 2 - 150, Screen.height / 2, Screen.width / 3, Screen.height / 3), "<color=yellow><size=22>-Event complete</size></color>");	
+
+		if (!step2 && !step3) {
+			GUI.Label (new Rect (Screen.width / 2 - 170, 30, Screen.width / 2, Screen.width / 4), "<color=red><size=34>Time left: " + (int)globalTimer + "</size></color>");
+		}
+
+		//Add here more ifs to facilitate timers for step2 and 3; can look like as follows
+
+		if (step2) {
+			GUI.Label (new Rect (Screen.width / 2 - 170, 30, Screen.width / 2, Screen.width / 4), "<color=red><size=34>Time left: " + (int)timer + "</size></color>");
+		}
+
+
+		if (eventComplete && showSuccess) {
+			Invoke("hideSuccess", 7);
+			GUI.Label (new Rect (Screen.width / 2 - 150, Screen.height / 2, Screen.width / 3, Screen.height / 3), "<color=green><size=34>Event complete!</size></color>");	
 		}
 	}
 
@@ -49,6 +68,9 @@ public class con4MainEvent : MonoBehaviour {
 		toggleEventExplaination = false;
 	}
 
+	void hideSuccess(){
+		showSuccess = false;
+	}
 
 	public void event4Console(string textInput){
 		
@@ -75,6 +97,7 @@ public class con4MainEvent : MonoBehaviour {
 			console.textOutput = "Pressurising room\n";
 			if (eventNum == 2 && step3 == true){
 				eventComplete = true;
+				victory();
 			}
 		} else if (textInput == "air out") {
 			console.textOutput = "Releasing air to space\n";
@@ -87,6 +110,7 @@ public class con4MainEvent : MonoBehaviour {
 			console.textOutput = "Water flow off\n";
 			if(eventNum == 1){
 				eventComplete = true;
+				victory();
 			}
 		} else if (console.spamshield == true) {
 			console.textOutput = "";
@@ -95,6 +119,42 @@ public class con4MainEvent : MonoBehaviour {
 			console.textOutput = "Unrecognised command\n";
 		}
 		
+	}
+
+	public void victory(){
+		if (eventComplete) {
+			score.majorEventCompleted = true;
+
+			elevator.SendMessage("OpenDoors");
+		}
+	}
+
+	void StartEvent () {
+
+		GameObject currentLevel;
+		Vector3 levelExit;
+		GameObject player;
+
+		//Level Exit and player
+		currentLevel = GameObject.FindGameObjectWithTag("level");
+		levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
+		player = GameObject.FindGameObjectWithTag ("Player");
+		
+		//Instantiate elevator
+		GameObject[] gos = GameObject.FindGameObjectsWithTag("consolePositions");
+		
+		foreach (GameObject go in gos) {
+			if(go.name.Contains("con4Pos"))
+				levelExit = go.transform.position;
+		}
+		
+		levelExit = levelExit + new Vector3(-5f,2.7f,-9f);
+
+		Debug.Log("DO WE GET HERE");
+		//Spawn elevator to next level;
+		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit, Quaternion.Euler(new Vector3(0, 90f, 0))) as GameObject;
+		elevator.name = "exitElevator";
+		elevator.transform.parent = currentLevel.transform;
 	}
 
 }

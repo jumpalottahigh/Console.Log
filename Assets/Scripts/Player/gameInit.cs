@@ -3,22 +3,27 @@ using System.Collections;
 
 public class gameInit : MonoBehaviour {
 
+	public static GameObject curLevObject;
+
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
 	private float levelRot;
+	private int prevRandomNumber;
+	private int random;
 
 	public static bool loadNextLevel = false;
 	public static bool removeCurrentLevel = false;
-
 
 	// Use this for initialization
 	void Start () {
 
 		//Fix variables
-		levelNum = 0;
+		levelNum = 1;
 		levelHeight = 0.0f;
 		levelRot = 0.0f;
+		prevRandomNumber = -1;
+		random = -1;
 
 		//Instantiate the player
 		GameObject player = Instantiate (Resources.Load ("Prefabs/Player"), new Vector3 (-15f, 3f, 5f), Quaternion.identity) as GameObject;
@@ -30,15 +35,13 @@ public class gameInit : MonoBehaviour {
 
 		LoadLevel (levelNum, levelHeight, levelRot);
 
-
-
-
 	}
 
 	void Update(){
 
 		if (loadNextLevel) {
 			loadNextLevel = false;
+			levelNum++;
 			LoadLevel(levelNum, 0.0f, 0.0f);
 		}
 
@@ -53,11 +56,12 @@ public class gameInit : MonoBehaviour {
 	//This function takes care of loading multiple levels, selecting a main con and spawning other cons
 	void LoadLevel(int levelNum, float levelHeight, float levelRot){
 			//Load up level backbone at 0,0,0 for first level and fix the name in the Hierarchy
-			//All follow up levels have a random 90 degree around the Y axis rotation
+			//All follow up levels have a random 90 degree around the Y axis rotation	
+
 			GameObject.Destroy (currentLevel);
-			levelNum++;
 			currentLevel = Instantiate (Resources.Load ("Prefabs/Final/Level_Backbone"), new Vector3(0, levelHeight, 0), Quaternion.Euler(0,levelRot,0)) as GameObject;
 			currentLevel.name = "level" + levelNum;
+			curLevObject = currentLevel;
 			GameObject consolesInLevel = new GameObject ();
 			consolesInLevel.name = currentLevel.name + "_consoles";
 			consolesInLevel.transform.parent = currentLevel.transform;	
@@ -71,11 +75,25 @@ public class gameInit : MonoBehaviour {
 					consoleTransforms.Add (conPos [j].transform);
 			}
 			
+			random = Random.Range (0, 5);
 			//Spawn the main console
-			int random = Random.Range (0, 5); // pick a number from 1 to 5
-			
+
+			if (prevRandomNumber >= 0) {
+
+			if (random == prevRandomNumber) {
+				if(Random.value > 0.5f){
+					random = Random.Range (0, prevRandomNumber);// pick a number from 1 to 5
+				} else {
+					random = Random.Range(prevRandomNumber+1, 5);
+				}
+				}
+			}
+
+			//Update prev random
+			prevRandomNumber = random;
+
 			//replace hardcoded 0 with random var;
-			Transform mainPos = (Transform)consoleTransforms [0]; //Get the transform we picked
+			Transform mainPos = (Transform)consoleTransforms [random]; //Get the transform we picked
 			
 			//Instantiate the main console and immediately fix the name
 			GameObject mainCon = Instantiate (Resources.Load ("Prefabs/Consoles/conGeneric"), mainPos.position, mainPos.rotation) as GameObject;
@@ -86,7 +104,7 @@ public class gameInit : MonoBehaviour {
 
 			//Remove main console from arraylist
 			//replace 0 with random
-			consoleTransforms.RemoveAt (0);
+			consoleTransforms.RemoveAt (random);
 			
 			//Spawn 0-4 secondary consoles (chance of spawning secondary is 66%
 			
@@ -103,11 +121,6 @@ public class gameInit : MonoBehaviour {
 			
 			//Clear the array list
 			consoleTransforms.Clear ();
-	
-			//Increment level number
-			//levelNum++;
-			//levelHeight += 23f;
-
 		}
 
 	//This function takes a console game object as an argument and parents to it all relative doors, lights, elevators etc.
@@ -186,20 +199,28 @@ public class gameInit : MonoBehaviour {
 
 		if (con.name.Contains ("con2")) {
 			con.AddComponent<con2MainEvent> ();
+			con.SendMessage("StartEvent");
 		}
 
 		if (con.name.Contains ("con3")) {
 			con.AddComponent<con3MainEvent> ();
+			con.SendMessage("StartEvent");
 		}
 
 		if (con.name.Contains ("con4")) {
 			con.AddComponent<con4MainEvent> ();
+			con.SendMessage("StartEvent");
 		}
 
 		if (con.name.Contains ("con5")) {
 			con.AddComponent<con5MainEvent> ();
+			con.SendMessage("StartEvent");
 		}
 
+	}
+
+	public static GameObject getCurrentLevel(){
+		return curLevObject;
 	}
 
 }

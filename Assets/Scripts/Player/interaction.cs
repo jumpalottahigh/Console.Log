@@ -59,8 +59,6 @@ public class interaction : MonoBehaviour {
 		Cursor.visible = false;
 
 		FindConsole ();
-		Debug.Log ("IS THIS FIRING OFF???? " + closestConsole.name);
-
 	}
 	
 	// Update is called once per frame

@@ -13,16 +13,6 @@ public class con1MainEvent : MonoBehaviour {
 	private GameObject currentLevel;
 	private float timer;
 	private bool eventSolved;
-
-
-
-
-
-	private GameObject[] allLevels;
-
-	private bool success = false;
-
-
 	private bool toggleEventExplaination = true;
 
 	//EVENT SCRIPT FOR WHEN CONSOLE 1 is main does the following:
@@ -34,6 +24,7 @@ public class con1MainEvent : MonoBehaviour {
 
 	// Use this for initialization
 	void StartEvent () {
+		Debug.Log ("Console 1 has the main event");
 		//Level Exit and player
 		currentLevel = GameObject.FindGameObjectWithTag("level");
 		levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
@@ -60,6 +51,7 @@ public class con1MainEvent : MonoBehaviour {
 		gravityButton.name = "gravityButton";
 		gravityButton.transform.parent = currentLevel.transform;
 
+		Debug.Log("DO WE GET HERE");
 		//Spawn elevator to next level;
 		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit + new Vector3(-2.2f, 2.64f, -2f), Quaternion.Euler(Vector3.up)) as GameObject;
 		elevator.name = "exitElevator";
