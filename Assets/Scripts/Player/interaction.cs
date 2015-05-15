@@ -143,12 +143,15 @@ public class interaction : MonoBehaviour {
 		GUI.Label (new Rect (-100, -100, 1, 1), "");
 
 		//Here is a small bug which throws 1 error, to be fixed in the future
-		if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && toggleHelp) {
-			GUI.Label(new Rect(20,Screen.height/2,Screen.width/4,Screen.height/3), "<color=orange><size=40>Press E to interact with consoles</size></color>");
-		}
+		if (closestConsole != null) {
 
-		if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && !toggleHelp) {
-			GUI.Label(new Rect(20,Screen.height/2,Screen.width/4,Screen.height/3), "<color=red><size=40>Press ESC to exit</size></color>");
+			if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && toggleHelp) {
+				GUI.Label (new Rect (20, Screen.height / 2, Screen.width / 4, Screen.height / 3), "<color=orange><size=40>Press E to interact with consoles</size></color>");
+			}
+
+			if (Vector3.Distance (player.transform.position, closestConsole.transform.position) < 5f && !toggleHelp) {
+				GUI.Label (new Rect (20, Screen.height / 2, Screen.width / 4, Screen.height / 3), "<color=red><size=40>Press ESC to exit</size></color>");
+			}
 		}
 
 	}

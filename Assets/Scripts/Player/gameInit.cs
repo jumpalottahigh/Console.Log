@@ -3,44 +3,32 @@ using System.Collections;
 
 public class gameInit : MonoBehaviour {
 
-	public static bool loadNextLevel = false;
-
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
 	private float levelRot;
 
+	public static bool loadNextLevel = false;
+	public static bool removeCurrentLevel = false;
+
+
 	// Use this for initialization
 	void Start () {
+
+		//Fix variables
+		levelNum = 0;
+		levelHeight = 0.0f;
+		levelRot = 0.0f;
 
 		//Instantiate the player
 		GameObject player = Instantiate (Resources.Load ("Prefabs/Player"), new Vector3 (-15f, 3f, 5f), Quaternion.identity) as GameObject;
 		player.name = "Player";
 
 		///
-		//DEPRECATED:
-		//MULTIPLE LEVEL SPAWN
-		//Lets spawn 3 levels to start with
-
-		/*
-		levelNum = 1;
-		levelHeight = 0.0f;
-		levelRot = 0.0f;
-
-		while (levelNum<4) {
-			LoadLevel(levelNum, levelHeight, levelRot);
-
-			levelNum++;
-			levelHeight += 22f;
-			levelRot = Mathf.Round(Random.Range(1,4)*90);
-		}
-		*/
-
-		///
 		//SPAWN 1 LEVEL
 		///
 
-		LoadLevel (1, 0.0f, 0.0f);
+		LoadLevel (levelNum, levelHeight, levelRot);
 
 
 
@@ -48,9 +36,16 @@ public class gameInit : MonoBehaviour {
 	}
 
 	void Update(){
+
 		if (loadNextLevel) {
 			loadNextLevel = false;
 			LoadLevel(levelNum, 0.0f, 0.0f);
+		}
+
+		if(removeCurrentLevel){
+			removeCurrentLevel = false;
+			currentLevel.tag = null;
+			GameObject.Destroy (currentLevel);
 		}
 	}
 
@@ -59,6 +54,8 @@ public class gameInit : MonoBehaviour {
 	void LoadLevel(int levelNum, float levelHeight, float levelRot){
 			//Load up level backbone at 0,0,0 for first level and fix the name in the Hierarchy
 			//All follow up levels have a random 90 degree around the Y axis rotation
+			GameObject.Destroy (currentLevel);
+			levelNum++;
 			currentLevel = Instantiate (Resources.Load ("Prefabs/Final/Level_Backbone"), new Vector3(0, levelHeight, 0), Quaternion.Euler(0,levelRot,0)) as GameObject;
 			currentLevel.name = "level" + levelNum;
 			GameObject consolesInLevel = new GameObject ();
@@ -78,8 +75,7 @@ public class gameInit : MonoBehaviour {
 			int random = Random.Range (0, 5); // pick a number from 1 to 5
 			
 			//replace hardcoded 0 with random var;
-			Transform mainPos = (Transform)consoleTransforms [3]; //Get the transform we picked
-			Debug.Log ("Randomly picked: " + mainPos + "for the main console!");
+			Transform mainPos = (Transform)consoleTransforms [0]; //Get the transform we picked
 			
 			//Instantiate the main console and immediately fix the name
 			GameObject mainCon = Instantiate (Resources.Load ("Prefabs/Consoles/conGeneric"), mainPos.position, mainPos.rotation) as GameObject;
@@ -89,7 +85,8 @@ public class gameInit : MonoBehaviour {
 			SetParenting (mainCon, currentLevel);	
 
 			//Remove main console from arraylist
-			consoleTransforms.RemoveAt (random);
+			//replace 0 with random
+			consoleTransforms.RemoveAt (0);
 			
 			//Spawn 0-4 secondary consoles (chance of spawning secondary is 66%
 			
@@ -108,7 +105,8 @@ public class gameInit : MonoBehaviour {
 			consoleTransforms.Clear ();
 	
 			//Increment level number
-			levelNum++;
+			//levelNum++;
+			//levelHeight += 23f;
 
 		}
 
@@ -125,8 +123,8 @@ public class gameInit : MonoBehaviour {
 				light.transform.parent = con.transform;
 
 				//Give it 50/50 for the doors to be locked
-				if(Random.value > 0.5f)
-					door.SendMessage("Lock");
+				//if(Random.value > 0.5f)
+				//	door.SendMessage("Lock");
 			}
 		}
 		
@@ -136,8 +134,8 @@ public class gameInit : MonoBehaviour {
 				door.transform.parent = con.transform;
 
 				//Give it 50/50 for the doors to be locked
-				if(Random.value > 0.5f)
-					door.SendMessage("Lock");
+				//if(Random.value > 0.5f)
+				//	door.SendMessage("Lock");
 			}
 		}
 		
@@ -149,8 +147,8 @@ public class gameInit : MonoBehaviour {
 				light.transform.parent = con.transform;
 
 				//Give it 50/50 for the doors to be locked
-				if(Random.value > 0.5f)
-					door.SendMessage("Lock");
+				//if(Random.value > 0.5f)
+				//	door.SendMessage("Lock");
 			}
 		}
 		
@@ -162,8 +160,8 @@ public class gameInit : MonoBehaviour {
 				light.transform.parent = con.transform;
 
 				//Give it 50/50 for the doors to be locked
-				if(Random.value > 0.5f)
-					door.SendMessage("Lock");
+				//if(Random.value > 0.5f)
+				//	door.SendMessage("Lock");
 			}
 		}
 		
@@ -183,6 +181,7 @@ public class gameInit : MonoBehaviour {
 
 		if (con.name.Contains ("con1")) {
 			con.AddComponent<con1MainEvent> ();
+			con.SendMessage("StartEvent");
 		}
 
 		if (con.name.Contains ("con2")) {
@@ -202,4 +201,5 @@ public class gameInit : MonoBehaviour {
 		}
 
 	}
+
 }
