@@ -5,14 +5,14 @@ public class Elevator : MonoBehaviour {
 
 	private GameObject player;
 	private GameObject elevBtn;
+	private GameObject elevator;
 	private bool inTransition;
 	private bool haveArrived;
+	private bool elevBtnFound;
 
 	//Elevator animation clips
 	public Animation leftDoor;
 	public Animation rightDoor;
-	//public Animation leftDoorClose;
-	//public Animation rightDoorClose;
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +20,27 @@ public class Elevator : MonoBehaviour {
 		elevBtn = GameObject.Find ("button");
 		inTransition = false;
 		haveArrived = false;
+		elevBtnFound = false;
 	}
 
 	void Update(){
+		//Find the right elevator button
+		if (!elevBtnFound) {
+			elevBtn = GameObject.Find ("button");
+			if (elevBtn != null)
+				elevBtnFound = true;
+		} else {
+			if(elevBtn.name !="button")
+				elevBtnFound = false;
+		}
+
 		if (Vector3.Distance (elevBtn.transform.position, player.transform.position) < 2f && Input.GetKeyDown(KeyCode.E) && !inTransition) {
+			//Simple button in animation
+			while(elevBtn.transform.localPosition.x > -2.165f){
+				elevBtn.transform.localPosition -= Vector3.right * Time.deltaTime;
+				elevBtn.GetComponent<Renderer>().material.color = new Color(255f, 0, 0);
+			}
+
 			inTransition = true;
 			CloseDoors();
 		}
@@ -32,11 +49,17 @@ public class Elevator : MonoBehaviour {
 			haveArrived = false;
 			HaveArrived();
 		}
+
 	}
 
 	void OpenDoors(){
 		//Fix parenting and open doors
-		transform.parent = null;
+		if (!haveArrived) {
+			transform.parent = null;
+		}
+
+		Debug.Log (transform.name + " " + transform.tag);
+
 		rightDoor.Play ("doorRightOpen");
 		leftDoor.Play ("doorLeftOpen");
 	}
@@ -57,13 +80,20 @@ public class Elevator : MonoBehaviour {
 	void LoadNext(){
 		gameInit.loadNextLevel = true;
 		haveArrived = true;
-		Invoke ("OpenDoors", 3);
+		Invoke ("OpenDoors", 2);
 	}
 
 	void HaveArrived(){
-		rightDoor.Play("doorRightClose");
+		rightDoor.Play ("doorRightClose");
 		leftDoor.Play ("doorLeftClose");
-		this.name = "";
-		this.tag = "Untagged";
+		transform.tag = "Untagged";
+		transform.name = "";
+		elevBtn.name = "";
+		transform.parent = GameObject.FindGameObjectWithTag ("level").transform;
+		GetComponent<Elevator> ().enabled = false;
+
+		//boolean resets
+		//elevBtnFound = false;
 	}
+	
 }

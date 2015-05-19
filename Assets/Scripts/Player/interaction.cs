@@ -170,7 +170,6 @@ public class interaction : MonoBehaviour {
 			}
 			
 		}
-		Debug.Log ("Closest console is: " + closestConsole.name);
 	}
 			
 }

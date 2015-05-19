@@ -11,36 +11,23 @@ public class con3MainEvent : MonoBehaviour {
 	private bool eventSolved;
 	private bool weAreDoneHere;
 	private bool toggleEventExplaination;
+	private bool elevatorFound;
 	
 	// Use this for initialization
 	void StartEvent () {
-		Debug.Log ("Console 3 has the main event");
 		//Level Exit and player
-		currentLevel = GameObject.FindGameObjectWithTag("level");
-		levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
-		player = GameObject.FindGameObjectWithTag ("Player");
+		//currentLevel = GameObject.FindGameObjectWithTag("level");
+		//levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
+		//player = GameObject.FindGameObjectWithTag ("Player");
+
+		elevatorFound = false;
 		eventSolved = false;
 		toggleEventExplaination = true;
 		weAreDoneHere = false;
 
 		//Event
 		timer = 10f;
-		
-		//Instantiate button and elevator
-		GameObject[] gos = GameObject.FindGameObjectsWithTag("consolePositions");
-		
-		foreach (GameObject go in gos) {
-			if(go.name.Contains("con2Pos"))
-				levelExit = go.transform.position;
-		}
-		
-		levelExit = levelExit + new Vector3(-6f,2.7f,17f);
 
-		Debug.Log("DO WE GET HERE");
-		//Spawn elevator to next level;
-		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit, Quaternion.Euler(new Vector3(0, 90f, 0))) as GameObject;
-		elevator.name = "exitElevator";
-		elevator.transform.parent = currentLevel.transform;
 	}
 	
 	// Update is called once per frame
@@ -53,6 +40,17 @@ public class con3MainEvent : MonoBehaviour {
 			if(!weAreDoneHere){
 				victory ();
 			}
+		}
+
+		//Try finding elevator till success
+		if (!elevatorFound) {
+			elevator = GameObject.FindGameObjectWithTag ("elevator");
+			if (elevator != null) {
+				elevatorFound = true;
+			}
+		} else {
+			if(elevator.name != "exitElevator")
+				elevatorFound = false;
 		}
 		
 	}

@@ -14,6 +14,10 @@ public class con1MainEvent : MonoBehaviour {
 	private float timer;
 	private bool eventSolved;
 	private bool toggleEventExplaination = true;
+	private bool elevatorFound;
+	private bool gravityButtonFound;
+	private bool playerFound;
+	private bool currentLevelFound;
 
 	//EVENT SCRIPT FOR WHEN CONSOLE 1 is main does the following:
 	//Event fires off right away if con1 is the main event con;
@@ -24,38 +28,19 @@ public class con1MainEvent : MonoBehaviour {
 
 	// Use this for initialization
 	void StartEvent () {
-		Debug.Log ("Console 1 has the main event");
 		//Level Exit and player
-		currentLevel = GameObject.FindGameObjectWithTag("level");
-		levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
-		player = GameObject.FindGameObjectWithTag ("Player");
+		//currentLevel = GameObject.FindGameObjectWithTag("level");
+		//player = GameObject.FindGameObjectWithTag ("Player");
 		btnPressed = false;
 		eventSolved = false;
-
+		elevatorFound = false;
+		gravityButtonFound = false;
+		playerFound = false;
+		currentLevelFound = false;
 		//Event
 		//timer = 120;//120 seconds to complete
 		timer = 120f;
 
-		//Instantiate button and elevator
-		GameObject[] gos = GameObject.FindGameObjectsWithTag("consolePositions");
-
-		foreach (GameObject go in gos) {
-			if(go.name == "con5Pos")
-				con5pos = go.transform.position;
-		}
-
-		con5pos = con5pos + new Vector3(8.2f,1.5f,8f);
-
-		//Instantiate button
-		gravityButton = Instantiate (Resources.Load ("Prefabs/Events/con1Event/gravityButton"), con5pos, Quaternion.Euler(new Vector3(0,0,90))) as GameObject;
-		gravityButton.name = "gravityButton";
-		gravityButton.transform.parent = currentLevel.transform;
-
-		Debug.Log("DO WE GET HERE");
-		//Spawn elevator to next level;
-		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit + new Vector3(-2.2f, 2.64f, -2f), Quaternion.Euler(Vector3.up)) as GameObject;
-		elevator.name = "exitElevator";
-		elevator.transform.parent = currentLevel.transform;
 	}
 	
 	// Update is called once per frame
@@ -63,22 +48,59 @@ public class con1MainEvent : MonoBehaviour {
 
 		if (!btnPressed) {
 
-			//Fire off event timer and count down
-			timer -= 1 * Time.deltaTime;
+			if(gravityButtonFound && playerFound && currentLevelFound){
+				//Fire off event timer and count down
+				timer -= 1 * Time.deltaTime;
 
-			//Rotate the level here
-			if((int)timer % 10 == 0 && !eventSolved){
-				currentLevel.transform.Rotate(new Vector3(Random.value / 10f,Random.value/10f,0));
-			}
-			//Player presses button
-			if(Vector3.Distance(player.transform.position, gravityButton.transform.position) < 3f && Input.GetKeyDown(KeyCode.E)){
-
-				while(gravityButton.transform.localPosition.x < -11.45f){
-					gravityButton.transform.localPosition += Vector3.right * Time.deltaTime;
+				//Rotate the level here
+				if((int)timer % 10 == 0 && !eventSolved){
+					currentLevel.transform.Rotate(new Vector3(Random.value / 10f,Random.value/10f,0));
 				}
+				//Player presses button
+				if(Vector3.Distance(player.transform.position, gravityButton.transform.position) < 3f && Input.GetKeyDown(KeyCode.E)){
 
-				btnPressed = true;
-				victory ();
+					while(gravityButton.transform.localPosition.x < -11.45f){
+						gravityButton.transform.localPosition += Vector3.right * Time.deltaTime;
+					}
+
+					btnPressed = true;
+					victory ();
+				}
+			}
+		}
+
+		//Try finding elevator till success
+		if (!elevatorFound) {
+			elevator = GameObject.FindGameObjectWithTag ("elevator");
+			if (elevator != null) {
+				elevatorFound = true;
+			}
+		} else {
+			if(elevator.name != "exitElevator")
+				elevatorFound = false;
+		}
+
+		//Try finding gravity button till success
+		if (!gravityButtonFound) {
+			gravityButton = GameObject.Find ("gravityButton");
+			if(gravityButton != null){
+				gravityButtonFound = true;
+			}
+		}
+
+		//ALways find player
+		if (!playerFound) {
+			player = GameObject.FindGameObjectWithTag("Player");
+			if(player != null){
+				playerFound = true;
+			}
+		}
+
+		//Always find current level
+		if (!currentLevelFound) {
+			currentLevel = GameObject.FindGameObjectWithTag("level");
+			if(currentLevel != null){
+				currentLevelFound = true;
 			}
 		}
 	

@@ -5,6 +5,8 @@ public class gameInit : MonoBehaviour {
 
 	public static GameObject curLevObject;
 
+	private GameObject[] cleaner;
+	private GameObject elevator;
 	private GameObject currentLevel;
 	private int levelNum;
 	private float levelHeight;
@@ -39,17 +41,25 @@ public class gameInit : MonoBehaviour {
 
 	void Update(){
 
+		//Load Next Level On Demand
 		if (loadNextLevel) {
 			loadNextLevel = false;
 			levelNum++;
 			LoadLevel(levelNum, 0.0f, 0.0f);
 		}
 
+		//Remove old level
 		if(removeCurrentLevel){
 			removeCurrentLevel = false;
 			currentLevel.tag = null;
 			GameObject.Destroy (currentLevel);
 		}
+
+		//Remove any object with no name = trash
+		//if (GameObject.Find ("")) {
+			//GameObject.Destroy(GameObject.FindGameObjectsWithTag("thrash"));
+		//GameObject.D
+		//}
 	}
 
 
@@ -77,7 +87,7 @@ public class gameInit : MonoBehaviour {
 			
 			random = Random.Range (0, 5);
 			//Spawn the main console
-
+			//Prevent same event from spawning twice in a row
 			if (prevRandomNumber >= 0) {
 
 			if (random == prevRandomNumber) {
@@ -111,7 +121,6 @@ public class gameInit : MonoBehaviour {
 			foreach (Transform pos in consoleTransforms) {
 				//Give secondary consoles 66% chance to spawn
 				if(Random.value < 0.66f){
-					Debug.Log ("Secondary consoles are: " + pos);
 					GameObject buffer = Instantiate (Resources.Load ("Prefabs/Consoles/conGeneric"), pos.position, pos.rotation) as GameObject;
 					buffer.name = "level" + levelNum + "_" + pos.name;
 					buffer.transform.parent = consolesInLevel.transform;
@@ -179,10 +188,8 @@ public class gameInit : MonoBehaviour {
 		}
 		
 		if (con.name.Contains ("con5")) {
-			door = GameObject.Find("Elevator");
 			light = GameObject.Find ("Light5");
-			if(door.transform.IsChildOf(curLevel.transform) && light.transform.IsChildOf(curLevel.transform)){
-				door.transform.parent = con.transform;
+			if(light.transform.IsChildOf(curLevel.transform)){
 				light.transform.parent = con.transform;
 			}
 		}
@@ -192,35 +199,119 @@ public class gameInit : MonoBehaviour {
 	//Here we pass only the main event console and depending on its numbering assign the proper event script
 	void AttachMainEventScript(GameObject con){
 
+		//Variables
+		Vector3 levelExit = Vector3.zero;
+		GameObject[] gos = GameObject.FindGameObjectsWithTag("consolePositions");
+
+
+		//CASE CONSOLE 1
 		if (con.name.Contains ("con1")) {
 			con.AddComponent<con1MainEvent> ();
 			con.SendMessage("StartEvent");
+
+
+			//Spawn elevator to next level
+			levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
+			levelExit = levelExit + new Vector3(-2.2f, 2.64f, -2f);
+			spawnElevator(levelExit, 0);
+
+			//Spawn gravity button
+			Vector3 gravityBtnPos = Vector3.zero;
+			GameObject gravityButton;
+			foreach (GameObject go in gos) {
+				if(go.name == "con5Pos")
+					gravityBtnPos = go.transform.position;
+			}
+			
+			gravityBtnPos = gravityBtnPos + new Vector3(8.2f,1.5f,8f);
+			
+			//Instantiate button
+			gravityButton = Instantiate (Resources.Load ("Prefabs/Events/con1Event/gravityButton"), gravityBtnPos, Quaternion.Euler(new Vector3(0,0,90))) as GameObject;
+			gravityButton.name = "gravityButton";
+			gravityButton.transform.parent = currentLevel.transform;
 		}
 
+
+		//CASE CONSOLE 2
 		if (con.name.Contains ("con2")) {
 			con.AddComponent<con2MainEvent> ();
 			con.SendMessage("StartEvent");
+
+			//Spawn elevator to next level
+			foreach (GameObject go in gos) {
+				if(go.name.Contains("con2Pos"))
+					levelExit = go.transform.position;
+			}
+			levelExit = levelExit + new Vector3(-7f,2.7f,-3f);
+			spawnElevator(levelExit, -180f);
 		}
 
+
+		//CASE CONSOLE 3
 		if (con.name.Contains ("con3")) {
 			con.AddComponent<con3MainEvent> ();
 			con.SendMessage("StartEvent");
+
+			//Spawn elevator to next level
+			foreach (GameObject go in gos) {
+				if(go.name.Contains("con2Pos"))
+					levelExit = go.transform.position;
+			}
+			levelExit = levelExit + new Vector3(-6f,2.7f,17f);
+			spawnElevator(levelExit, 90f);
 		}
 
+
+		//CASE CONSOLE 4
 		if (con.name.Contains ("con4")) {
 			con.AddComponent<con4MainEvent> ();
 			con.SendMessage("StartEvent");
+
+			//Spawn elevator to next level		
+			foreach (GameObject go in gos) {
+				if(go.name.Contains("con4Pos"))
+					levelExit = go.transform.position;
+			}
+			levelExit = levelExit + new Vector3(-5f,2.7f,-9f);
+			spawnElevator(levelExit, 90f);
 		}
 
+
+		//CASE CONSOLE 5
 		if (con.name.Contains ("con5")) {
 			con.AddComponent<con5MainEvent> ();
 			con.SendMessage("StartEvent");
+
+			//Spawn elevator to next level
+			foreach (GameObject go in gos) {
+				if(go.name.Contains("con4Pos"))
+					levelExit = go.transform.position;
+			}
+			
+			levelExit = levelExit + new Vector3(-4f,2.7f,5.5f);
+			spawnElevator(levelExit, 0);
 		}
 
 	}
 
+	/*
 	public static GameObject getCurrentLevel(){
 		return curLevObject;
 	}
+	*/
+
+	void spawnElevator(Vector3 levelExit, float yRot){
+		//Spawn elevator to next level;
+		//elevator = null;
+		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit, Quaternion.Euler(new Vector3(0, yRot, 0))) as GameObject;
+		elevator.name = "exitElevator";
+		elevator.transform.parent = currentLevel.transform;
+	}
+
+	/*
+	GameObject getElevator(){
+		return elevator;
+	}
+	*/
 
 }

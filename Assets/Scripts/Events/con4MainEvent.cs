@@ -10,13 +10,22 @@ public class con4MainEvent : MonoBehaviour {
 	private int eventNum;
 	private float globalTimer = 60f;
 	private float timer = 10, deathTimer = 20;
+	private bool elevatorFound;
 
 	// Use this for initialization
-	void Start () {
-		Debug.Log ("Console 4 has the main event");
+	void StartEvent () {
 		eventNum = Random.Range (1, 3);
+
+		GameObject currentLevel;
+		GameObject player;
+		
+		//Level Exit and player
+		//currentLevel = GameObject.FindGameObjectWithTag("level");
+		//player = GameObject.FindGameObjectWithTag ("Player");
+
+		elevatorFound = false;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (step2 == true) {
@@ -34,6 +43,17 @@ public class con4MainEvent : MonoBehaviour {
 		//if no steps are done
 		if(!step2 && !step3)
 			globalTimer -= 1 * Time.deltaTime;
+
+		//Try finding elevator till success
+		if (!elevatorFound) {
+			elevator = GameObject.FindGameObjectWithTag ("elevator");
+			if (elevator != null) {
+				elevatorFound = true;
+			}
+		} else {
+			if(elevator.name != "exitElevator")
+				elevatorFound = false;
+		}
 	}
 
 	void OnGUI(){
@@ -129,32 +149,6 @@ public class con4MainEvent : MonoBehaviour {
 		}
 	}
 
-	void StartEvent () {
 
-		GameObject currentLevel;
-		Vector3 levelExit;
-		GameObject player;
-
-		//Level Exit and player
-		currentLevel = GameObject.FindGameObjectWithTag("level");
-		levelExit = GameObject.FindGameObjectWithTag("exit").transform.position;
-		player = GameObject.FindGameObjectWithTag ("Player");
-		
-		//Instantiate elevator
-		GameObject[] gos = GameObject.FindGameObjectsWithTag("consolePositions");
-		
-		foreach (GameObject go in gos) {
-			if(go.name.Contains("con4Pos"))
-				levelExit = go.transform.position;
-		}
-		
-		levelExit = levelExit + new Vector3(-5f,2.7f,-9f);
-
-		Debug.Log("DO WE GET HERE");
-		//Spawn elevator to next level;
-		elevator = Instantiate(Resources.Load("Prefabs/Elevator"), levelExit, Quaternion.Euler(new Vector3(0, 90f, 0))) as GameObject;
-		elevator.name = "exitElevator";
-		elevator.transform.parent = currentLevel.transform;
-	}
 
 }
