@@ -38,7 +38,11 @@ public class Elevator : MonoBehaviour {
 			//Simple button in animation
 			while(elevBtn.transform.localPosition.x > -2.165f){
 				elevBtn.transform.localPosition -= Vector3.right * Time.deltaTime;
-				elevBtn.GetComponent<Renderer>().material.color = new Color(255f, 0, 0);
+				elevBtn.GetComponent<Renderer>().material.mainTexture = (Texture) Resources.Load("button_red");
+
+				//Play elevator button pressed sound
+				AudioClip ebp = (AudioClip) Resources.Load("Sounds/Environment/ElevatorButtonPressed");
+				AudioSource.PlayClipAtPoint(ebp, transform.position, 0.1f);
 			}
 
 			inTransition = true;
@@ -57,8 +61,12 @@ public class Elevator : MonoBehaviour {
 		if (!haveArrived) {
 			transform.parent = null;
 		}
-
-		Debug.Log (transform.name + " " + transform.tag);
+	
+		if (haveArrived) {
+			//Play elevator arrived sound
+			AudioClip arr = (AudioClip)Resources.Load ("Sounds/Environment/ElevatorArrived");
+			AudioSource.PlayClipAtPoint (arr, transform.position, 0.1f);
+		}
 
 		rightDoor.Play ("doorRightOpen");
 		leftDoor.Play ("doorLeftOpen");
@@ -95,5 +103,5 @@ public class Elevator : MonoBehaviour {
 		//boolean resets
 		//elevBtnFound = false;
 	}
-	
+
 }

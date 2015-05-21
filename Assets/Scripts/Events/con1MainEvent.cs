@@ -61,6 +61,11 @@ public class con1MainEvent : MonoBehaviour {
 
 					while(gravityButton.transform.localPosition.x < -11.45f){
 						gravityButton.transform.localPosition += Vector3.right * Time.deltaTime;
+						gravityButton.GetComponent<Renderer>().material.mainTexture = (Texture) Resources.Load("button_green");
+
+						//Play elevator button pressed sound
+						AudioClip gbc = (AudioClip) Resources.Load("Sounds/Environment/ElevatorButtonPressed");
+						AudioSource.PlayClipAtPoint(gbc, gravityButton.transform.position, 0.1f);
 					}
 
 					btnPressed = true;

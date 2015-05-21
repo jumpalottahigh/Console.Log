@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Elevator
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP
+  m_Name: gravityButton
+  m_Shader: {fileID: 3, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -18,8 +18,8 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 4ea7efea8114c9a4ba212860d6e15400, type: 3}
-          m_Scale: {x: 25, y: 25}
+          m_Texture: {fileID: 2800000, guid: 375470b7ce9888746878ae8365ab8596, type: 3}
+          m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -31,6 +31,13 @@ Material:
       data:
         first:
           name: _DetailNormalMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -53,8 +60,8 @@ Material:
         first:
           name: _EmissionMap
         second:
-          m_Texture: {fileID: 2800000, guid: bbfcaf40c0b6fd44590ae72944bd5419, type: 3}
-          m_Scale: {x: 25, y: 25}
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -74,7 +81,14 @@ Material:
         first:
           name: _MetallicGlossMap
         second:
-          m_Texture: {fileID: 2800000, guid: bbfcaf40c0b6fd44590ae72944bd5419, type: 3}
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -82,6 +96,14 @@ Material:
         first:
           name: _Cutoff
         second: .5
+      data:
+        first:
+          name: _Shininess
+        second: .819999993
+      data:
+        first:
+          name: _Exposure
+        second: 1
       data:
         first:
           name: _SrcBlend
@@ -101,7 +123,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: 1
       data:
         first:
           name: _BumpScale
@@ -121,7 +143,7 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: .600000024
+        second: 1
       data:
         first:
           name: _Mode
@@ -129,17 +151,33 @@ Material:
       data:
         first:
           name: _Metallic
-        second: .256000012
+        second: 1
+      data:
+        first:
+          name: _InvFade
+        second: 1
+      data:
+        first:
+          name: _Rotation
+        second: 0
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: .600000024, g: .600000024, b: .600000024, a: .600000024}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
+          name: _SpecColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
           name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Tint
+        second: {r: .5, g: .5, b: .5, a: .5}
